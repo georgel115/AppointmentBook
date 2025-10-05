@@ -29,20 +29,29 @@ public class AppointmentBook
     public boolean makeAppointment(int startPeriod, int endPeriod, int duration)
     {
         schedule = new boolean[8][60];
+        for(int i = startPeriod; i <= endPeriod; i++)
+        {
+            int freeBlock = findFreeBlock(i, duration);
+            if (freeBlock > -1)
+            {
+                reserveBlock(i, freeBlock, duration);
+                return true;
+            }
+        }
         for(int i = 25; i < 30; i++) schedule[1][i] = true;
         for(int i = 0; i < 15; i++) schedule[1][i] = true;
         for(int i = 41; i < 60; i++) schedule[1][i] = true;
         for(int i = 5; i < 30; i++) schedule[1][i] = true;
         for(int i = 44; i < 60; i++) schedule[1][i] = true;
-        for(int i = startPeriod; i <= endPeriod; i++)
-            int freeBlock = findFreeBlock(i, duration);
         return false;
     }
 
     public void printPeriod(int period)
     {
         for(int i = 0; i < schedule[period - 1].length; i++)
-        System.out.println(i + " " + schedule[period - 1][i]);
+        {
+            System.out.println(i + " " + schedule[period - 1][i]);
+        }
     }
 
     private void reserveBlock(int period, int startMinute, int duration)
